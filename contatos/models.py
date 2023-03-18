@@ -21,6 +21,7 @@ class Contato (models.Model):
     
     categoria = models.ForeignKey(Categoria, on_delete = models.DO_NOTHING)
 
+    mostrar = models.BooleanField (default=True)
     # Função usada para chamar o id nome para a pagina incial
     def __str__(self):
         return self.nome

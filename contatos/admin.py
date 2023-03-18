@@ -8,7 +8,7 @@ from .models import Categoria, Contato
 
 class ContatoAdmin(admin.ModelAdmin):
     list_display = ('id', 'nome', 'sobrenome', 'telefone', 'email',
-                    'data_criacao', 'categoria') # Mostra principais elementos
+                    'data_criacao', 'categoria', 'mostrar') # Mostra principais elementos
     
     list_display_links = ('id', 'nome') # Deixa clicar no id/ nome
 
@@ -17,6 +17,10 @@ class ContatoAdmin(admin.ModelAdmin):
     list_per_page = 10 # Limita mostrar 10 elementos por pagina
 
     search_fields = ('nome', 'sobrenome', 'telefone') # Cria-se um campo de pesquisa
+
+    list_editable = ('telefone', 'mostrar')
+
+
 
 
 admin.site.register(Categoria)
