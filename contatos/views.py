@@ -49,9 +49,7 @@ def busca (request):
 #        Q(nome__icontains = termo) | Q(sobrenome__icontains = termo),
 #        mostrar = True
 #    )
-    print(contatos.query)
-
-
+    
     paginator = Paginator (contatos, 10)
     page = request.GET.get ('p')
     contatos = paginator.get_page(page)
