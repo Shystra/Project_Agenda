@@ -1,0 +1,14 @@
+from django.shortcuts import render
+
+def login (request):
+    return render (request, 'accounts/login.html')
+
+def logout (request):
+    return render (request, 'accotuns/logout.html')
+
+def cadastro (request):
+    return render (request, 'accounts/cadastro.html')
+
+def dashboard (request):
+    return render (request, 'accounts/dashboard.html')
+
