@@ -23,6 +23,12 @@ class Contato (models.Model):
 
     mostrar = models.BooleanField (default=True)
     # Função usada para chamar o id nome para a pagina incial
+
+    foto = models.ImageField (blank=True, upload_to = 'foto/%Y/%m/%m')
+
+
+
+
     def __str__(self):
         return self.nome
 
