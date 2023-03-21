@@ -1,21 +1,47 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.contrib import messages, auth
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required #login requerido
 
 
 def login (request):
-    return render (request, 'accounts/login.html')
+    if request.method != 'POST': # SE NADA FOR POSTADO RETORNE O FORMULARIO
+        return render (request, 'accounts/login.html')
+    
+    usuario = request.POST.get ('usuario')
+    senha = request.POST.get ('senha')
+
+    user = auth.authenticate (request, username = usuario, password = senha) # import auth
+    # USER AUTENTICA SE A SENHA É VALIDA COM O USUARIO JA CADASTRADO
+    if not user:
+        messages.error (request, 'Usuário ou senha inválidos.')
+        return render (request, 'accounts/login.html')
+    else:
+        auth.login (request, user) # import auth
+        messages.success (request, 'Você fez login com sucesso!')
+        return redirect ('dashboard')
+
+
+
+
 
 def logout (request):
-    return render (request, 'accotuns/logout.html')
+    auth.logout (request)
+    return redirect ('index') # REDIRECIONA PARA TELA INICIAL - 
+    #CASO QUEIRA JOGAR PARA LOGIN É SÓ ADICIONAR 'dashboard'
+    
+
+
+
+
 
 
 
 # ------------ AJUSTANDO CADASTRO -------------------
 def cadastro (request):
     #messages.success(request, 'Deu certo!')
-    if request.method != 'POST':  #SE FOR DIFERENTE DE POST
+    if request.method != 'POST':  # SE NADA FOR POSTADO RETORNE O FORMULARIO
         return render(request, 'accounts/cadastro.html')
     
     nome = request.POST.get ('nome')
@@ -76,6 +102,7 @@ def cadastro (request):
     print(request.POST)
     return render (request, 'accounts/cadastro.html')
 
+@login_required (redirect_field_name = 'login') # CASO O USUARIO NAO ESTEJA LOGADO ELE REDIRECIONA PARA LOGIN
 def dashboard (request):
     return render (request, 'accounts/dashboard.html')
 
