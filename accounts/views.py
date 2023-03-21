@@ -3,7 +3,7 @@ from django.contrib import messages, auth
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required #login requerido
-
+from .models import FormContato
 
 def login (request):
     if request.method != 'POST': # SE NADA FOR POSTADO RETORNE O FORMULARIO
@@ -104,5 +104,7 @@ def cadastro (request):
 
 @login_required (redirect_field_name = 'login') # CASO O USUARIO NAO ESTEJA LOGADO ELE REDIRECIONA PARA LOGIN
 def dashboard (request):
-    return render (request, 'accounts/dashboard.html')
+
+    form = FormContato ()
+    return render (request, 'accounts/dashboard.html', {'form': form})
 
