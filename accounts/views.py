@@ -113,4 +113,15 @@ def dashboard (request):
         messages.error (request, 'Erro ao enviar formulário.')
         form = FormContato (request.POST)
         return render (request, 'accounts/dashboard.html', {'form': form})
+    
+    descricao = request.POST.get ('descricao')
+    if len (descricao) < 5:
+        messages.error (request, 'Descrição precisa ter mais que 5 caracteres.')
+        form = FormContato (request.POST)
+        return render (render, 'accounts/dashboard.html', {'form': form})
+    
+    #------------- CASO TUDO ESTEJA OK ---------- ELE VAI SALVAR O FORMULARIO E REDIRECIONAR PARA O DASHBOARD
+    form.save ()
+    messages.success(request, f'Contato {request.POST.get("nome")} salvo com sucesso!')
+    return redirect ('dashboard')
 
