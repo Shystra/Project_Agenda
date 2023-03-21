@@ -104,7 +104,13 @@ def cadastro (request):
 
 @login_required (redirect_field_name = 'login') # CASO O USUARIO NAO ESTEJA LOGADO ELE REDIRECIONA PARA LOGIN
 def dashboard (request):
-
-    form = FormContato ()
-    return render (request, 'accounts/dashboard.html', {'form': form})
+    if request.method != 'POST': # SE METHOD FOR DIFERENTE QUE POST, RETORNAR FORMULARIO
+        form = FormContato ()
+        return render (request, 'accounts/dashboard.html', {'form': form})
+    
+    form = FormContato(request.POST, request.FILES)
+    if not form.is_valid (request.POST): # SE NAO FOR VALIDO O FORMULARIO RETORNAR O POST
+        messages.error (request, 'Erro ao enviar formulário.')
+        form = FormContato (request.POST)
+        return render (request, 'accounts/dashboard.html', {'form': form})
 
